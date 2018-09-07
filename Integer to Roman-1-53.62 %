@@ -1,0 +1,38 @@
+class Solution {
+public:
+    string intToRoman(int num) 
+    {
+        vector<pair<char, int>>  fuck{ {'I', 1}, {'V', 5}, {'X', 10} , {'L', 50} , {'C', 100} , {'D', 500}, {'M', 1000} };
+     //   for(auto it: fuck)
+     //   {
+     //       
+     //   }
+        string output = "";
+        int i;
+        for( i=6 ; i>=0; i = i-2)
+        {
+            int times;
+            times = num/fuck[i].second;
+            
+            if(times == 4 || times == 9)
+            {
+                int temp = times/4;
+                output = output + fuck[i].first + fuck[i+temp].first;
+                times = 0;
+            }
+            
+            if(times >= 5)
+            {
+                output = output + fuck[i+1].first;
+                times = times -5;
+                
+            }
+            for( ; times>0; times--)
+                output = output + fuck[i].first;
+
+            num = num % fuck[i].second;
+        }
+        
+        return output;
+    }
+};
