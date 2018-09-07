@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) 
+    {
+        int lengthOfArrary = nums.size();
+        int i, j, temp, found=0;
+        for( i=0; i<lengthOfArrary && found == 0; i++)
+        {
+            temp = target - nums[i];
+            for( j=i + 1; j<lengthOfArrary && found == 0; j++)
+            {
+                if(nums[j] == temp)
+                    found = 1;
+            }
+        }
+        vector<int> fuck;
+        fuck.assign(2, 0);
+        
+        fuck[0] = i-1;
+        fuck[1] = j-1;
+        return fuck;
+    }
+};
