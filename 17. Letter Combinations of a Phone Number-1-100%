@@ -1,0 +1,65 @@
+class Solution {
+public:
+    
+void init(char alpha[][4], int number_has_alpha[], int &count_possible_result, string digits)
+{
+    int i, j;
+    for(i=2; i<=9; i++)
+    {
+        if( i == 7 || i == 9)
+            number_has_alpha[i] = 4;
+        else
+            number_has_alpha[i] = 3;
+    }
+    int temp = 97;
+    for(i=2; i<=9; i++)
+    {
+        for(j=1; j<=4; j++)
+        {
+            if(j > number_has_alpha[i])
+                break;
+            alpha[i][j-1] = char(temp);
+            temp++;
+        }    
+    }
+    
+    count_possible_result = 0;
+    for( i=0, count_possible_result=1; i<digits.length(); i++)
+    {
+        count_possible_result = count_possible_result * number_has_alpha[int(digits[i]-48)];
+    }
+    
+}
+
+    vector<string> letterCombinations(string digits)
+    {
+        if(digits.length() <= 0)
+        {
+            vector<string> fuck;
+            return fuck;
+        }
+        
+        char alpha[10][4] = {0};
+        int number_has_alpha[10] = {0};
+        int i, j, count_possible_result;
+        init(alpha, number_has_alpha, count_possible_result, digits);
+
+        vector<string> output(count_possible_result, "");
+        
+        int break_point = count_possible_result;
+        for( i=0; i<digits.length(); i++)
+        {
+            int current_number = digits[i]-48;
+            break_point = break_point/number_has_alpha[current_number];
+
+            for( j=0; j<count_possible_result; j++)
+            {
+                int temp = (j/break_point)%number_has_alpha[current_number];
+                output[j] = output[j] + alpha[current_number] [ temp];
+            }
+        }
+
+
+        return output;
+    }
+};
