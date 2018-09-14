@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int max;
+    bool valid(int point, int leftcount, int rightcount)
+    {
+        if(rightcount < 0 || leftcount <0)
+            return false;
+        if(point >= max)
+            return false;
+        if(rightcount < leftcount)
+            return false;
+
+        return true;
+    }
+
+    void fuck(vector<string> &List, string &temp, int point, int leftcount, int rightcount)
+    {
+
+        if(point >= max -1)
+        { 
+            List.push_back(temp);
+        }
+        if(valid(point + 1, leftcount - 1, rightcount))
+        {
+            temp.push_back('(');
+            fuck(List, temp, point + 1, leftcount - 1, rightcount);
+            temp.pop_back();
+        }
+        if(valid(point + 1, leftcount, rightcount - 1))
+        {
+            temp.push_back(')');
+            fuck(List, temp, point + 1, leftcount, rightcount - 1);
+            temp.pop_back();
+        }
+
+    }
+    vector<string> generateParenthesis(int n) 
+    {
+        vector<string> List;
+        max = n*2;
+        
+        string temp;
+        fuck(List, temp, -1, n, n);
+        return List;
+    }
+};
