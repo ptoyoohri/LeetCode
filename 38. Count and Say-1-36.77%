@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string countAndSay(int n) 
+    {
+    
+        string input = "1";
+        if(n == 1)
+            return input;
+        int i, j;
+        for( i=1; i<n; i++)
+        {
+            string temp;
+            char sample = input[0];
+            int count = 1;
+            for(j=1; j<input.length(); j++)
+            {
+                if(sample != input[j])
+                {
+                    temp = temp + char(count+48) + sample;
+                    sample = input[j];
+                    count = 1;
+                }
+                else
+                    count++;
+            }
+            if(j>=input.length())
+            {
+                temp = temp + char(count+48) + sample;
+            }
+            input = temp;
+            
+        }
+        return input;
+    }
+};
