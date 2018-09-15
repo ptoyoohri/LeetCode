@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int reverse(int x) {
+       
+        string fuck = to_string(x);
+        int i, j;
+        if(x<0)
+            i = 1;
+        else
+            i = 0;
+        for( j=fuck.length()-1; i < j; i++, j--)
+        {
+            char temp = fuck[i];
+            fuck[i] = fuck[j];
+            fuck[j] = temp;
+        }
+        long temp = stol(fuck);
+        if(temp< INT_MIN || temp> INT_MAX)
+            return 0;
+        return temp;
+    }
+};
