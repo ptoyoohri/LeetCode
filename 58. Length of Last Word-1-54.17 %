@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+       
+        int last_space = s.find_last_of(' ');
+        int last_not_space = s.find_last_not_of(' ');
+        
+        for( ; last_space > last_not_space && last_not_space >= 0; )
+            last_space = s.find_last_of(' ', last_not_space);
+        
+        if(last_not_space < 0)
+            return 0;
+        return last_not_space-last_space;
+    }
+};
