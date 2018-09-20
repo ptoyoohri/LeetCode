@@ -1,0 +1,110 @@
+class Solution {
+public:
+    int AllQueens;
+    void PutQueen(vector< vector<bool> > &chess, vector< vector<int> > &map, int x, int y)
+    {
+        if(x<AllQueens && y<AllQueens)
+        {
+            chess[x][y] = false;  
+            RedrawMap(map, x, y, "Put");
+        }    
+    }
+    void RemoveQuuen(vector< vector<bool> > &chess, vector< vector<int> > &map, int x, int y)
+    {
+        if(x<AllQueens && y<AllQueens)
+        {
+            chess[x][y] = true;  
+            RedrawMap(map, x, y, "Remove");
+        }    
+    }
+    void RedrawMap(vector< vector<int> > &map, int x, int y, string action)
+    {
+        int i, j;
+        int temp;
+        if(action == "Put")
+            temp = 1;
+        else
+            temp = -1;
+
+        for( i = 0; i<AllQueens; i++)
+        {
+            map[x][i]+=temp;
+            map[i][y]+=temp;
+        }
+        for( i=x, j=y; i < AllQueens && j<AllQueens; i++, j++)
+            map[i][j]+=temp;
+        for( i=x, j=y; i >=0 && j>=0; i--, j--)
+             map[i][j]+=temp;
+        for( i=x, j=y; i<AllQueens && j>=0; i++, j--)
+            map[i][j]+=temp;
+        for( i=x, j=y; i >=0 && j<AllQueens; i--, j++)
+            map[i][j]+=temp;
+    }
+    void AddOutput(vector<vector<string>> &output, vector< vector<bool> > &chess)
+    {
+        vector<string> result;
+        string temp = "";
+        int i, j;
+        for( i=0; i < AllQueens; i++)
+        {
+            for( j=0; j < AllQueens; j++)
+            {
+                if(chess[i][j])
+                    temp = temp + '.';
+                else
+                    temp = temp + 'Q';
+            }
+         //   cout<<temp<<endl;
+            result.push_back(temp);
+            temp = "";
+        }
+     //   cout<<endl;
+        output.push_back(result);
+    }
+    bool FindWay( vector<vector<string>> &output, vector< vector<bool> > chess, vector< vector<int> > map, int RemainQueens)
+    {    
+
+        for( int i=0; i<AllQueens && RemainQueens > 0; i++)
+        {
+         //   cout<<i<<" "<<AllQueens -RemainQueens<<endl;
+            int j = AllQueens-RemainQueens;
+            if(map[i][j] == 0)
+            {
+                PutQueen(chess, map, i, j);
+
+
+              //  showmap(chess, map);
+
+                if(!FindWay(output, chess, map, RemainQueens-1))
+                    RemoveQuuen(chess, map, i, j);
+            }
+
+        }
+
+        if(RemainQueens <= 0) // $$ means all Queens are on the chess board
+        {
+            AddOutput(output, chess);
+            return true;
+        }
+        else
+        {
+         //   cout<<"failed";
+         //   showmap(chess, map);
+            return false;
+        }
+
+    }
+    vector<vector<string>> solveNQueens(int n) 
+    {
+        vector< vector<bool> > chess(n, vector<bool>(n, true));
+        vector< vector<int> > map(n, vector<int>(n, 0));
+        
+        vector<vector<string>> output;
+        int RemainQueens = n;
+        AllQueens = n;
+        FindWay(output, chess, map, RemainQueens);
+        
+        
+        return output;
+    }
+};
